@@ -1,21 +1,15 @@
 """! 
 @brief Example 01 
-@details 
+@details FFT computation example
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 @copyright NCSR Demokritos
 """
-
 import scipy.fftpack as scp
 import numpy as np
 import plotly
 import plotly.graph_objs as go
-
-
-def main():
-    f1 = 500
-    f2 = 2500
-    fs = 8000
-    duration = 0.1
+if __name__ == '__main__':
+    f1, f2, fs, duration = 500, 2500, 8000, 0.1
     # define time range
     t = np.arange(0, duration, 1.0/fs)
     # define signal as sum of cosines
@@ -24,7 +18,7 @@ def main():
     X = np.abs(scp.fft(x))
     # normalize FFT mag
     X = X / X.max()
-    freqs = np.arange(0, 1, 1.0/len(X)) * (fs)
+    freqs = np.arange(0, 1, 1.0/len(X)) * fs
     # get 1st symmetric part
     freqs_1 = freqs[0:int(len(freqs)/2)]
     X_1 = X[0:int(len(X)/2)]
@@ -34,6 +28,3 @@ def main():
     figs.append_trace(go.Scatter(x=freqs, y=X, showlegend=False), 1, 1)
     figs.append_trace(go.Scatter(x=freqs_1, y=X_1, showlegend=False), 2, 1)
     plotly.offline.plot(figs, filename="temp.html", auto_open=True)
-
-if __name__ == '__main__':
-    main()
