@@ -2,7 +2,6 @@
 @brief Example 01 
 @details FFT computation example
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
-@copyright NCSR Demokritos
 """
 import scipy.fftpack as scp
 import numpy as np

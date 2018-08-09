@@ -3,7 +3,6 @@
 @details Example of spectrogram computation for a wav file, using only fft
 from scipy.
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
-@copyright NCSR Demokritos
 """
 import scipy.fftpack as scp
 import numpy as np
