@@ -1,7 +1,6 @@
 """! 
 @brief Example 02
-@details Example of spectrogram computation for a wav file, using only fft
-from scipy.
+@details Example of spectrogram computation for a wav file, using only scipy
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import scipy.fftpack as scp
