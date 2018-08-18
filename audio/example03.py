@@ -28,7 +28,7 @@ if __name__ == '__main__':
         # get spectrogram and visualize it using opencv
         specgram, f, t = example02.get_fft_spec(s, fs, 0.02)
         iSpec = np.array(specgram[::-1] * 255, dtype=np.uint8)
-        iSpec2 = cv2.resize(iSpec, (600, 300), interpolation=cv2.INTER_CUBIC)
+        iSpec2 = cv2.resize(iSpec, (600, 350), interpolation=cv2.INTER_CUBIC)
         iSpec2 = cv2.applyColorMap(iSpec2, cv2.COLORMAP_JET)
         cv2.imshow('Spectrogram', iSpec2)
         cv2.moveWindow('Spectrogram', 100, 100)
