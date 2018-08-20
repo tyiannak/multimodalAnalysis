@@ -8,12 +8,13 @@ import numpy as np
 import scipy.io.wavfile as wavfile
 import os, time
 from random import randint
+import playsound
 
 def play_sound(freq, duration, fs):
     t = np.arange(0, duration, 1.0/fs)  # time range
     x = 0.5*np.cos(2 * np.pi * t * freq)    # signal
     wavfile.write("temp.wav", fs, x)
-    os.system("play temp.wav -q")
+    playsound.playsound("temp.wav")
 
 if __name__ == '__main__':
     freqs, thres, n_exp = [250, 500, 1000, 2000, 3000], [2, 5, 10, 20], 10
