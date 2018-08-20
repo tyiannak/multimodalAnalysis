@@ -26,8 +26,7 @@ if __name__ == '__main__':
                 ans = int(raw_input('Which was higher (1/2):'))
                 if ans == sequel: answers[i_f][-1] += 1
     print("Freq\t", end='')
-    for t in thres:
-        print("{0:.1f}\t".format(t), end='')
+    for t in thres: print("{0:.1f}\t".format(t), end='')
     print("")
     for i_f, f in enumerate(freqs):
         print("{} Hz\t".format(f), end='')
