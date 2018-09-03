@@ -8,7 +8,8 @@ import plotly.graph_objs as go
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_feature_histograms(list_of_feature_mtr, feature_names, class_names):
+def plot_feature_histograms(list_of_feature_mtr, feature_names, class_names,
+                            n_columns=8):
     '''
     Plots the histograms of all classes and features for a given classification
     task.
@@ -21,7 +22,6 @@ def plot_feature_histograms(list_of_feature_mtr, feature_names, class_names):
     color_map = plt.cm.get_cmap('jet')
     n_features = len(feature_names)
     n_bins = 12
-    n_columns = 4
     n_classes = len(class_names)
     n_rows = int(n_features / n_columns) + 1
     figs = plotly.tools.make_subplots(rows=n_rows, cols=n_columns,

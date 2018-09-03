@@ -1,6 +1,6 @@
 """! 
 @brief Example 09
-@details pyAudioAnalysis feature extraction example for male / female speeces
+@details pyAudioAnalysis feature extraction example for male / female speeches
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import numpy as np

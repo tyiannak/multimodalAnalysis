@@ -17,9 +17,10 @@ if __name__ == '__main__':
     fp = "../data/doremi.wav" # music sample
     # read machine sound
     fs, s = aIO.readAudioFile(fp)
+    fs = float(fs)
     dur1 = len(s) / float(fs)
-    spec, time, freq = aF.stChromagram(s, fs, round(fs * win), round(fs * win),
-                                       False)
+    spec, time, freq = aF.stChromagram(s, fs, int(fs * win),
+                                       int(fs * win), False)
     heatmap = go.Heatmap(z=spec.T, y=freq, x=time)
     plotly.offline.plot(go.Figure(data=[heatmap], layout=layout),
                         filename="temp.html", auto_open=True)

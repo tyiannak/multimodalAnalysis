@@ -1,6 +1,6 @@
 """! 
 @brief Example 10
-@details pyAudioAnalysis feature extraction example  - mfccs
+@details pyAudioAnalysis feature extraction example  - mfccs for male/female
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import numpy as np
@@ -27,9 +27,7 @@ if __name__ == '__main__':
     t2 = np.arange(0, dur2 - 0.050, 0.050)
     figs.append_trace(go.Scatter(x=t1, y=f1[9, :], name="male"), 1, 1)
     figs.append_trace(go.Scatter(x=t2, y=f2[9, :], name="female"), 1, 1)
-
     figs.append_trace(go.Scatter(x=t1, y=f1[10, :], name="male"), 1, 2)
     figs.append_trace(go.Scatter(x=t2, y=f2[10, :], name="female"), 1, 2)
-
 
     plotly.offline.plot(figs, filename="temp.html", auto_open=True)
