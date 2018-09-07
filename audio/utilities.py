@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def plot_feature_histograms(list_of_feature_mtr, feature_names, class_names,
-                            n_columns=8):
+                            n_columns=5):
     '''
     Plots the histograms of all classes and features for a given classification
     task.
