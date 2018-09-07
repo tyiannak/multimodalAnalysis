@@ -22,7 +22,7 @@ if __name__ == '__main__':
     while 1:
         # read recorded data, convert bytes to samples and then to numpy array
         block = stream.read(bufSize, exception_on_overflow=False)
-        s = np.array(list(struct.unpack("%dh"%(len(block)/2), block)))
+        s = np.array(list(struct.unpack("%dh"%(len(block)/2), block))).astype(float)
         aggregated_buf = np.concatenate((aggregated_buf, s))
         s /= (2 ** 15)
         # get spectrogram and visualize it using opencv
