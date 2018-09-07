@@ -1,6 +1,8 @@
 """! 
-@brief Example 11
-@details pyAudioAnalysis chromagram example
+@brief Example 13
+@details pyAudioAnalysis feature extraction for classes organized in folders
+and feature histogram representation (per feature and class).
+3-class classification task: animals vs speech vs music segments
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 from pyAudioAnalysis import audioFeatureExtraction as aF

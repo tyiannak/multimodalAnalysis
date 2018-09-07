@@ -1,6 +1,8 @@
 """! 
-@brief Example 11
-@details pyAudioAnalysis chromagram example
+@brief Example 12
+@details pyAudioAnalysis feature extraction for classes organized in folders
+and feature histogram representation (per feature and class).
+Binary classification task: male vs female speech segments
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 from pyAudioAnalysis import audioFeatureExtraction as aF
