@@ -18,21 +18,13 @@ def plot_feature_histograms(list_of_feature_mtr, feature_names,
     :param feature_names:       list of feature names
     :param class_names:         list of class names, for each feature matr
     '''
-    clr_map = plt.cm.get_cmap('jet')
     n_features = len(feature_names)
     n_bins = 12
-    n_classes = len(class_names)
     n_rows = int(n_features / n_columns) + 1
     figs = plotly.tools.make_subplots(rows=n_rows, cols=n_columns,
                                       subplot_titles=feature_names)
     figs['layout'].update(height=(n_rows * 250))
-    range_cl = range(int(int(255/n_classes)/2), 255, int(255/n_classes))
-    clr = []
-    for i in range(n_classes):
-        clr.append('rgba({},{},{},{})'.format(clr_map(range_cl[i])[0],
-                                              clr_map(range_cl[i])[1],
-                                              clr_map(range_cl[i])[2],
-                                              clr_map(range_cl[i])[3]))
+    clr = get_color_combinations(len(class_names))
     for i in range(n_features):
         # for each feature get its bin range (min:(max-min)/n_bins:max)
         f = np.vstack([x[:, i:i + 1] for x in list_of_feature_mtr])
@@ -51,3 +43,15 @@ def plot_feature_histograms(list_of_feature_mtr, feature_names,
     for i in figs['layout']['annotations']:
         i['font'] = dict(size=10, color='#224488')
     plotly.offline.plot(figs, filename="report.html", auto_open=True)
+
+
+def get_color_combinations(n_classes):
+    clr_map = plt.cm.get_cmap('jet')
+    range_cl = range(int(int(255/n_classes)/2), 255, int(255/n_classes))
+    clr = []
+    for i in range(n_classes):
+        clr.append('rgba({},{},{},{})'.format(clr_map(range_cl[i])[0],
+                                              clr_map(range_cl[i])[1],
+                                              clr_map(range_cl[i])[2],
+                                              clr_map(range_cl[i])[3]))
+    return clr
