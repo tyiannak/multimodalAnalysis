@@ -10,18 +10,18 @@ import numpy as np
 import plotly.graph_objs as go
 
 def get_librosa_pitch(signal, fs, window):
-    pitches, magnitudes = librosa.piptrack(y=signal, sr=fs, n_fft=window)
+    pitches, magnitudes = librosa.piptrack(y=signal, sr=fs, n_fft=int(window))
     pitch_pos = np.argmax(magnitudes, axis=0)
     pitches_final = []
     for i in range(len(pitch_pos)):
         pitches_final.append(pitches[pitch_pos[i], i])
     pitches_final = np.array(pitches_final)
-    pitches_final[pitches_final > 500] = 0
+    pitches_final[pitches_final > 800] = 0
     return pitches_final
 
 if __name__ == '__main__':
-    [fs, s1] = wavfile.read("../data/gender/male/11a05Na.wav.wav")
-    [fs, s2] = wavfile.read("../data/gender/female/14b09Fc.wav.wav")
+    [fs, s1] = wavfile.read("../data/speech_male_sample.wav")
+    [fs, s2] = wavfile.read("../data/speech_female_sample.wav")
     p1 = get_librosa_pitch(s1, fs, fs/10)
     p2 = get_librosa_pitch(s2, fs, fs/10)
     plt1 = go.Scatter(x=np.arange(len(p1)), y=p1, mode='markers',
