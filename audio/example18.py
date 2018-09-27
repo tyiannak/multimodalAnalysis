@@ -17,7 +17,7 @@ def get_dir_features(dir_name):
     for f in glob.glob(os.path.join(dir_name, "*.wav")):
         [Fs, s] = wavfile.read(f)
         p = example17.get_librosa_pitch(s, Fs, Fs / 20)
-        feats.append(np.median(p[p>0]))
+        feats.append(np.mean(p[p>0]))
     return feats
 
 if __name__ == '__main__':
