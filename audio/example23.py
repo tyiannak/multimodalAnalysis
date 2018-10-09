@@ -19,7 +19,7 @@ if __name__ == '__main__':
                        2 * np.ones(f3.shape[0]), 3 * np.ones(f4.shape[0])))
     print(x.shape, y.shape)
     # train svm and get aggregated (average) confusion matrix, accuracy and f1
-    cm, acc, f1 = ut.svm_train_evaluate(x, y, 5, C=2)
+    cm, acc, f1 = ut.svm_train_evaluate(x, y, 2, C=2)
     # visualize performance measures
     ut.plotly_classification_results(cm, ["cupboards", "door", "silence",
                                           "walk"])
