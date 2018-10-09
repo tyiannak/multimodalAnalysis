@@ -1,6 +1,6 @@
 """! 
-@brief Example 20
-@details Musical genre classification example. Classification performance
+@brief Example 23
+@details Audio event detection. Classification performance
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import numpy as np
@@ -19,7 +19,7 @@ if __name__ == '__main__':
                        2 * np.ones(f3.shape[0]), 3 * np.ones(f4.shape[0])))
     print(x.shape, y.shape)
     # train svm and get aggregated (average) confusion matrix, accuracy and f1
-    cm, acc, f1 = ut.svm_train_evaluate(x, y, 1, C=2)
+    cm, acc, f1 = ut.svm_train_evaluate(x, y, 5, C=2)
     # visualize performance measures
     ut.plotly_classification_results(cm, ["cupboards", "door", "silence",
                                           "walk"])
