@@ -35,7 +35,7 @@ if __name__ == '__main__':
                       marker=dict(size=10,color='rgba(100, 100, 220, .9)',))
     # get classification decisions for grid
     y = np.concatenate((np.zeros(f1.shape[0]), np.ones(f2.shape[0]),
-                       2 * np.ones(f2.shape[0])))
+                       2 * np.ones(f3.shape[0])))
     cl = SVC(kernel='rbf', C=1)
     cl.fit(f, y)
     x_ = np.arange(f[:, 0].min(), f[:, 0].max(), 0.01)
