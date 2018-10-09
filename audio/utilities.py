@@ -8,6 +8,7 @@ import plotly.graph_objs as go
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
+from sklearn.svm import SVR
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix, f1_score, accuracy_score
 
@@ -74,13 +75,13 @@ def compute_class_rec_pre_f1(c_mat):
     return rec,  pre, f1
 
 
-def svm_train_evaluate(X, y, k_folds, C=1):
+def svm_train_evaluate(X, y, k_folds, C=1, use_regressor=False):
     '''
-    Trains and evaluate an SVM classifier
     :param X: Feature matrix
     :param y: Labels matrix
     :param k_folds: Number of folds
     :param C: SVM C param
+    :param use_regressor: use svm regression for training (not nominal classes)
     :return: confusion matrix, average f1 measure and overall accuracy
     '''
     # normalize
@@ -88,14 +89,17 @@ def svm_train_evaluate(X, y, k_folds, C=1):
     X = (X - mean) / std
     # k-fold evaluation:
     kf = KFold(n_splits=k_folds, shuffle=True)
-    count_cm = 0
-    f1s = []
-    accs = []
+    f1s, accs, count_cm = [], [], 0
     for train, test in kf.split(X):
         x_train, x_test, y_train, y_test = X[train], X[test], y[train], y[test]
-        cl = SVC(kernel='rbf', C=C)
+        if not use_regressor:
+            cl = SVC(kernel='rbf', C=C)
+        else:
+            cl = SVR(kernel='rbf', C=C)
         cl.fit(x_train, y_train)
         y_pred = cl.predict(x_test)
+        if use_regressor:
+            y_pred = np.round(y_pred)
         # update aggregated confusion matrix:
         if count_cm == 0:
             cm = confusion_matrix(y_pred=y_pred, y_true=y_test)
