@@ -142,7 +142,7 @@ def svm_train_evaluate_regression(X, y, k_folds, C=1):
     :param y: Continous Labels matrix
     :param k_folds: Number of folds
     :param C: SVM C param
-    :return: MSE
+    :return: MAE, MAE (baseline), all predictions and respective groundtruths
     '''
     # normalize
     mean, std = X.mean(axis=0), np.std(X, axis=0)
