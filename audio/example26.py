@@ -29,11 +29,12 @@ if __name__ == '__main__':
         x, y, filenames = joblib.load(target_type + ".bin")
     else:
         gt = {}
-        with open('music_data_small/{}.csv'.format(target_type)) as csvfile:
+        with open('../data/music_data_small/{}.csv'.format(target_type)) \
+                as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             for row in reader:
                gt[row[0]] = row[1]
-        f, f_names, fn1 = dW("music_data_small", 2, 2, 0.1, 0.1)
+        f, f_names, fn1 = dW("../data/music_data_small", 2, 2, 0.1, 0.1)
         x, y, filenames = [], [], []
         for i_f, f_name in enumerate(f_names):
             if os.path.basename(f_name) in gt:
