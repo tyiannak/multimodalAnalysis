@@ -11,6 +11,7 @@ from sklearn.svm import SVC
 from sklearn.svm import SVR
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix, f1_score, accuracy_score
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 def plot_feature_histograms(list_of_feature_mtr, feature_names,
                             class_names, n_columns=5):
@@ -135,3 +136,31 @@ def plotly_classification_results(cm, class_names):
     figs.append_trace(b2, 1, 2); figs.append_trace(b3, 1, 2)
     plotly.offline.plot(figs, filename="temp.html", auto_open=True)
 
+def svm_train_evaluate_regression(X, y, k_folds, C=1):
+    '''
+    :param X: Feature matrix
+    :param y: Continous Labels matrix
+    :param k_folds: Number of folds
+    :param C: SVM C param
+    :return: MSE
+    '''
+    # normalize
+    mean, std = X.mean(axis=0), np.std(X, axis=0)
+    X = (X - mean) / std
+    # k-fold evaluation:
+    ma, mi = y.max(), y.min()
+    kf = KFold(n_splits=k_folds, shuffle=True)
+    mse, r_mse, all_pred, all_gt = [], [], [], []
+    for train, test in kf.split(X):
+        x_train, x_test, y_train, y_test = X[train], X[test], y[train], y[test]
+        cl = SVR(kernel='linear', C=C)
+        cl.fit(x_train, y_train)
+        y_pred = cl.predict(x_test)
+        y_pred[y_pred < mi] = mi
+        y_pred[y_pred > ma] = ma
+        all_pred += y_pred.tolist()
+        all_gt += y_test.tolist()
+        y_pred_rand = np.ones(y_pred.shape) * y_train.mean()
+        mse.append(mean_absolute_error(y_test, y_pred))
+        r_mse.append(mean_absolute_error(y_test, y_pred_rand))
+    return np.mean(mse), np.mean(r_mse), np.array(all_pred), np.array(all_gt)
