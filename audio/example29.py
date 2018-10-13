@@ -1,6 +1,6 @@
 """! 
-@brief Example 28
-@details: Speaker diarization example
+@brief Example 29
+@details: Music segmentation example
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import os, readchar, sklearn.cluster
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     for sp in range(n_clusters):            # play each cluster's segment
         for i in range(len(c)):
             if c[i] == sp and segs[i, 1]-segs[i, 0] > 5:
-                # play long segments of current speaker
+                # play long segments of current cluster (only win_to_play seconds)
                 d = segs[i, 1]-segs[i, 0]
                 win_to_play = 10
                 if win_to_play > d:
