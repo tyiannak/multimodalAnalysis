@@ -1,7 +1,7 @@
 """!
 @brief Example 1
-@details: Load a jpeg image and show it, using opencv, along with the average
-values of the RGB coefficients
+@details: Load 2 jpeg images and show them, using opencv, along with the
+average values of the RGB coefficients
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import cv2
