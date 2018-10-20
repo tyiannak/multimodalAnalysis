@@ -1,0 +1,9 @@
+readchar==2.0.1
+scipy==0.19.1
+plotly==3.1.1
+numpy==1.14.3
+PyAudio==0.2.11
+librosa==0.5.1
+matplotlib==2.0.2
+pyAudioAnalysis==0.2.5
+scikit_learn==0.20.0
