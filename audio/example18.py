@@ -7,7 +7,7 @@ import numpy as np, plotly, plotly.graph_objs as go
 from pyAudioAnalysis.audioFeatureExtraction import dirWavFeatureExtraction as dW
 from sklearn.svm import SVC
 import utilities as ut
-name_1, name_2 = "mfcc_3_std", "zcr_mean"
+name_1, name_2 = "mfcc_3_std", "energy_entropy_mean"
 layout = go.Layout(title='Speech Music Classification Example',
                    xaxis=dict(title=name_1,), yaxis=dict(title=name_2,))
 
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     plt2 = go.Scatter(x=f2[:, 0], y=f2[:, 1], mode='markers', name="music")
     # get classification decisions for grid
     y = np.concatenate((np.zeros(f1.shape[0]), np.ones(f2.shape[0])))
-    cl = SVC(kernel='rbf', C=10)
+    cl = SVC(kernel='rbf', C=0.1)
     cl.fit(f, y)
     x_ = np.arange(f[:, 0].min(), f[:, 0].max(), 0.01)
     y_ = np.arange(f[:, 1].min(), f[:, 1].max(), 0.01)
