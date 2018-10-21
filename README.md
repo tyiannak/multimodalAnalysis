@@ -22,4 +22,4 @@ Dependencies can be installed using pip and the requirements.txt files in each f
 [Course 2](https://drive.google.com/open?id=1heH7rKGEEySVh3sK583MuwqlNwACiAerHQw4JQTntI4)
 
 #### Audio Classification and Regression
-[Course 3](https://docs.google.com/presentation/d/18fkOP3GjAggdg86BGz_TvOxNxxh5YDeL3YMGOI2cMhQ/edit?usp=sharing)
+[Course 3](https://drive.google.com/open?id=18fkOP3GjAggdg86BGz_TvOxNxxh5YDeL3YMGOI2cMhQ)
