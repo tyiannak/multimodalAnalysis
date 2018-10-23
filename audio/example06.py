@@ -23,7 +23,7 @@ if __name__ == '__main__':
     S = librosa.feature.melspectrogram(s, Fs, None, int(Fs * 0.020),
                                        int(Fs * 0.020), power=2)
     # create frequency and time axes
-    f = range(S.shape[0])
+    f = list(range(S.shape[0]))
     t = [float(t * int(Fs * 0.020)) / Fs for t in range(S.shape[1])]
     heatmap = go.Heatmap(z=S, y=f, x=t)
     plotly.offline.plot(go.Figure(data=[heatmap], layout=layout),
