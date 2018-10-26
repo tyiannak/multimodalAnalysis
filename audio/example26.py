@@ -49,7 +49,7 @@ if __name__ == '__main__':
                                                       "y and predicted y",
                                                       "predicted (vert) "
                                                       "vs real (hor)"])
-    mse, mse_r, all_pred, all_test = ut.svm_train_evaluate_regression(x, y,
+    mae, mae_r, all_pred, all_test = ut.svm_train_evaluate_regression(x, y,
                                                                       10, 1)
     sc1 = get_hist_scatter(all_pred, "pred")
     sc2 = get_hist_scatter(all_test, "real")
@@ -58,5 +58,5 @@ if __name__ == '__main__':
     plt2 = go.Scatter(x=all_test, y=all_pred, mode='markers', showlegend=False)
     figs.append_trace(plt2, 1, 2)
     plotly.offline.plot(figs, filename="temp.html", auto_open=True)
-    print("MSE={0:.3f}\nMSE Baseline = {1:.3f}".format(mse, mse_r))
+    print("MAE={0:.3f}\nMAE Baseline = {1:.3f}".format(mae, mae_r))
     print("Dataset STD (gt): {0:.2f}".format(all_test.std()))

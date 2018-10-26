@@ -150,7 +150,7 @@ def svm_train_evaluate_regression(X, y, k_folds, C=1):
     # k-fold evaluation:
     ma, mi = y.max(), y.min()
     kf = KFold(n_splits=k_folds, shuffle=True)
-    mse, r_mse, all_pred, all_gt = [], [], [], []
+    mae, r_mae, all_pred, all_gt = [], [], [], []
     for train, test in kf.split(X):
         x_train, x_test, y_train, y_test = X[train], X[test], y[train], y[test]
         cl = SVR(kernel='linear', C=C)
@@ -161,6 +161,6 @@ def svm_train_evaluate_regression(X, y, k_folds, C=1):
         all_pred += y_pred.tolist()
         all_gt += y_test.tolist()
         y_pred_rand = np.ones(y_pred.shape) * y_train.mean()
-        mse.append(mean_absolute_error(y_test, y_pred))
-        r_mse.append(mean_absolute_error(y_test, y_pred_rand))
-    return np.mean(mse), np.mean(r_mse), np.array(all_pred), np.array(all_gt)
+        mae.append(mean_absolute_error(y_test, y_pred))
+        r_mae.append(mean_absolute_error(y_test, y_pred_rand))
+    return np.mean(mae), np.mean(r_mae), np.array(all_pred), np.array(all_gt)
