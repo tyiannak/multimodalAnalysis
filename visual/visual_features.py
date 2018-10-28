@@ -7,7 +7,9 @@ extraction
 import cv2
 import numpy as np
 from skimage.feature import local_binary_pattern
+from skimage.feature import hog
 from numpy.lib.stride_tricks import as_strided as ast
+
 
 class ImageFeatureExtractor():
     """@brief  Image Feature Extractor Class
@@ -16,7 +18,8 @@ class ImageFeatureExtractor():
     @param resize_width (\a int) width of resized image to be used before
     feature extraction (-1 for not resize)
     """
-    def __init__(self, list_of_features=["lbps", "hogs"], resize_width=-1):
+    def __init__(self, list_of_features=["lbps", "hogs", "colors"],
+                 resize_width=-1):
         # get all annotations using multiple annotator flag:
         self.list_of_features = list_of_features
         self.resize_width = resize_width
@@ -32,6 +35,7 @@ class ImageFeatureExtractor():
         return img_new
 
     def getRGBS(self, image):
+        n_bins_per_hist = 16
         chans = cv2.split(image)
         colors = ("r", "g", "b")
         features = []
@@ -39,13 +43,13 @@ class ImageFeatureExtractor():
         # RGB Histograms:
         for (chan, color) in zip(chans, colors):  # loop over the image channels
             # get histograms
-            hist = cv2.calcHist([chan], [0], None, [8], [0, 256])
+            hist = cv2.calcHist([chan], [0], None, [n_bins_per_hist], [0, 256])
             hist = hist / hist.sum()
             features.extend(hist[:, 0].tolist())
         features.extend(features_sobel)
         # Gray Histogram
         img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        hist_gray = cv2.calcHist([chan], [0], None, [8], [0, 256])
+        hist_gray = cv2.calcHist([chan], [0], None, [n_bins_per_hist], [0, 256])
         hist_gray = hist_gray / hist_gray.sum()
         features.extend(hist_gray[:, 0].tolist())
         grad_x = np.abs(
@@ -57,27 +61,28 @@ class ImageFeatureExtractor():
         abs_grad_x = cv2.convertScaleAbs(grad_x)
         abs_grad_y = cv2.convertScaleAbs(grad_y)
         dst = cv2.addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0)
-        histSobel = cv2.calcHist([dst], [0], None, [8], [0, 256])
+        histSobel = cv2.calcHist([dst], [0], None, [n_bins_per_hist], [0, 256])
         histSobel = histSobel / histSobel.sum()
         features.extend(histSobel[:, 0].tolist())
         # HSV histogram
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         chans = cv2.split(hsv)  # take the S channel
         S = chans[1]
-        hist2 = cv2.calcHist([S], [0], None, [8], [0, 256])
+        hist2 = cv2.calcHist([S], [0], None, [n_bins_per_hist], [0, 256])
         hist2 = hist2 / hist2.sum()
         features.extend(hist2[:, 0].tolist())
-        Fnames = ["Color-R" + str(i) for i in range(8)]
-        Fnames.extend(["Color-G" + str(i) for i in range(8)])
-        Fnames.extend(["Color-B" + str(i) for i in range(8)])
-        Fnames.extend(["Color-Gray" + str(i) for i in range(8)])
-        Fnames.extend(["Color-GraySobel" + str(i) for i in range(8)])
-        Fnames.extend(["Color-Satur" + str(i) for i in range(8)])
-        return features, Fnames
+        f_names = ["Color-R" + str(i) for i in range(n_bins_per_hist)]
+        f_names.extend(["Color-G" + str(i) for i in range(n_bins_per_hist)])
+        f_names.extend(["Color-B" + str(i) for i in range(n_bins_per_hist)])
+        f_names.extend(["Color-Gray" + str(i) for i in range(n_bins_per_hist)])
+        f_names.extend(["Color-GraySobel" + str(i) for i in range(n_bins_per_hist)])
+        f_names.extend(["Color-Satur" + str(i) for i in range(n_bins_per_hist)])
+        return np.array(features), f_names
 
     def block_view(self, A, block=(32, 32)):
-        shape = (A.shape[0] / block[0], A.shape[1] / block[1]) + block
+        shape = (A.shape[0] // block[0], A.shape[1] // block[1]) + block
         strides = (block[0] * A.strides[0], block[1] * A.strides[1]) + A.strides
+
         return ast(A, shape=shape, strides=strides)
 
     def normalize(self, v):
@@ -94,7 +99,7 @@ class ImageFeatureExtractor():
             int) ** (1.0 / radius)
         # block processing:
         lbpImages = self.block_view(lbpImage,
-                                    (int(lbpImage.shape[0] / 2),
+                                    (int(lbpImage.shape[0] / 4),
                                      int(lbpImage.shape[1] / 4)))
         count = 0
         LBP = np.array([]);
@@ -104,15 +109,36 @@ class ImageFeatureExtractor():
                 LBPt = cv2.calcHist([lbpImages[i, j, :, :].astype('uint8')],
                                     [0], None, [8], [0, 256])
                 LBP = np.append(LBP, LBPt[:, 0]);
-        Fnames = ["LBP" + str(i).zfill(2) for i in range(len(LBP))]
-        return self.normalize(LBP).tolist(), Fnames
+        f_names = ["LBP" + str(i).zfill(2) for i in range(len(LBP))]
+        return self.normalize(LBP), f_names
 
+    def getHOG(self, img, n_hogs_per_dim = 4):
+        pixels_per_cell_h = img.shape[0] // n_hogs_per_dim
+        pixels_per_cell_w = img.shape[1] // n_hogs_per_dim
+        fd = hog(img, orientations=8,
+                  pixels_per_cell=(pixels_per_cell_h, pixels_per_cell_w),
+                  cells_per_block=(1, 1), visualize=False, multichannel=True)
+        f_names = ['HOG' + str(i).zfill(2) for i in range(len(fd))]
+        return fd, f_names
 
     def extract_features(self, file_path):
         # read image
         img = cv2.cvtColor(cv2.imread(file_path), cv2.COLOR_BGR2RGB)
-        f_rgb, f_rgb_names = self.getRGBS(img)
-        f_lbps, f_lbps_names = self.getLBP(img)
-        f = f_rgb + f_lbps
-        f_names = f_rgb_names + f+f_lbps_names
-        print f, f_names
+        features = []
+        feature_names = []
+        if "colors" in self.list_of_features:
+            f, fn = self.getRGBS(img)
+            features.append(f)
+            feature_names += fn
+        if "lbps" in self.list_of_features:
+            f, fn = self.getLBP(img)
+            features.append(f)
+            feature_names += fn
+        if "hogs" in self.list_of_features:
+            f, fn = self.getHOG(img)
+            features.append(f)
+            feature_names += fn
+        features = np.concatenate(features)
+        print(features, feature_names)
+        print(features.shape)
+        print(len(feature_names))
