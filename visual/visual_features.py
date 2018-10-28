@@ -6,6 +6,8 @@ extraction
 """
 import cv2
 import numpy as np
+from skimage.feature import local_binary_pattern
+from numpy.lib.stride_tricks import as_strided as ast
 
 class ImageFeatureExtractor():
     """@brief  Image Feature Extractor Class
@@ -73,8 +75,44 @@ class ImageFeatureExtractor():
         Fnames.extend(["Color-Satur" + str(i) for i in range(8)])
         return features, Fnames
 
+    def block_view(self, A, block=(32, 32)):
+        shape = (A.shape[0] / block[0], A.shape[1] / block[1]) + block
+        strides = (block[0] * A.strides[0], block[1] * A.strides[1]) + A.strides
+        return ast(A, shape=shape, strides=strides)
+
+    def normalize(self, v):
+        norm = np.linalg.norm(v)
+        if norm == 0:
+            return v
+        return v / norm
+
+    def getLBP(self, img):
+        img2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        radius = 1
+        n_points = 8 * radius
+        lbpImage = (local_binary_pattern(img2, n_points, radius)).astype(
+            int) ** (1.0 / radius)
+        # block processing:
+        lbpImages = self.block_view(lbpImage,
+                                    (int(lbpImage.shape[0] / 2),
+                                     int(lbpImage.shape[1] / 4)))
+        count = 0
+        LBP = np.array([]);
+        for i in range(lbpImages.shape[0]):  # for each block:
+            for j in range(lbpImages.shape[1]):
+                count += 1
+                LBPt = cv2.calcHist([lbpImages[i, j, :, :].astype('uint8')],
+                                    [0], None, [8], [0, 256])
+                LBP = np.append(LBP, LBPt[:, 0]);
+        Fnames = ["LBP" + str(i).zfill(2) for i in range(len(LBP))]
+        return self.normalize(LBP).tolist(), Fnames
+
+
     def extract_features(self, file_path):
         # read image
         img = cv2.cvtColor(cv2.imread(file_path), cv2.COLOR_BGR2RGB)
-        f, f_names = self.getRGBS(img)
+        f_rgb, f_rgb_names = self.getRGBS(img)
+        f_lbps, f_lbps_names = self.getLBP(img)
+        f = f_rgb + f_lbps
+        f_names = f_rgb_names + f+f_lbps_names
         print f, f_names
