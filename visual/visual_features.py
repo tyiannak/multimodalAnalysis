@@ -142,3 +142,4 @@ class ImageFeatureExtractor():
         print(features, feature_names)
         print(features.shape)
         print(len(feature_names))
+        return features, feature_names
