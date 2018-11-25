@@ -1,6 +1,6 @@
 """!
 @brief Example 14
-@details:
+@details: Image matching example
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import visual_features as vf
