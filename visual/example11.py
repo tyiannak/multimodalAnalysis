@@ -1,6 +1,7 @@
 """!
 @brief Example 11
-@details: Visual features visualization for 2 images using plotly
+@details: Visual features visualization for 2 images using plotly.
+(Color features)
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 

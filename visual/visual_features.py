@@ -5,10 +5,13 @@ extraction
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import cv2
-import numpy as np
 from skimage.feature import local_binary_pattern
 from skimage.feature import hog
 from numpy.lib.stride_tricks import as_strided as ast
+import os
+import pickle
+import scipy
+import numpy as np
 
 
 class ImageFeatureExtractor():
@@ -121,6 +124,26 @@ class ImageFeatureExtractor():
         f_names = ['HOG' + str(i).zfill(2) for i in range(len(fd))]
         return fd, f_names
 
+    def getKAZE(self, image, vector_size=8):
+        alg = cv2.KAZE_create()
+        # Finding image keypoints
+        kps = alg.detect(image)
+        # Getting first vector_size of them
+        # Sorting them based on keypoint response value(bigger is better)
+        kps = sorted(kps, key=lambda x: -x.response)[:vector_size]
+        # computing descriptors vector
+        kps, dsc = alg.compute(image, kps)
+        # Flatten all of them in one big vector - our feature vector
+        fd = dsc.flatten()
+        # Making descriptor of same size  (descriptor vector size is 64)
+        needed_size = (vector_size * 64)
+        if dsc.size < needed_size:
+            # if we have less the 32 descriptors then just adding zeros at the
+            # end of our feature vector
+            fd = np.concatenate([dsc, np.zeros(needed_size - dsc.size)])
+        f_names = ['KAZE' + str(i).zfill(2) for i in range(len(fd))]
+        return fd, f_names
+
     def extract_features(self, file_path):
         # read image
         img = cv2.cvtColor(cv2.imread(file_path), cv2.COLOR_BGR2RGB)
@@ -138,8 +161,46 @@ class ImageFeatureExtractor():
             f, fn = self.getHOG(img)
             features.append(f)
             feature_names += fn
+        if "kaze" in self.list_of_features:
+            f, fn = self.getKAZE(img)
+            features.append(f)
+            feature_names += fn
         features = np.concatenate(features)
-        print(features, feature_names)
-        print(features.shape)
-        print(len(feature_names))
         return features, feature_names
+
+class ImageMatch(object):
+    def __init__(self, pickled_db_path="features.pck"):
+        with open(pickled_db_path, 'rb') as fp:
+            self.data = pickle.load(fp)
+        self.names, self.matrix = [], []
+        for k, v in self.data.items():
+            self.names.append(k)
+            self.matrix.append(v)
+        self.matrix, self.names = np.array(self.matrix), np.array(self.names)
+
+    def cos_cdist(self, vector): # cosine distance between search image and db
+        v = vector.reshape(1, -1)
+        return scipy.spatial.distance.cdist(self.matrix, v, 'cosine').reshape(-1)
+
+    def match(self, image_path, topn=5):
+        img = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+        ife = ImageFeatureExtractor()
+        features, _ = ife.getKAZE(img, 32)
+        im_dist = self.cos_cdist(features)
+        nearest_i = np.argsort(im_dist)[:topn].tolist()  # top 5 records
+        nearest_paths = self.names[nearest_i].tolist()
+        return nearest_paths, im_dist[nearest_i].tolist()
+
+
+def batch_extractor(images_path, pickled_db_path="features.pck"):
+    files = [os.path.join(images_path, p) for p in
+             sorted(os.listdir(images_path))]
+    result = {}
+    for f in files:
+        name = f.split('/')[-1].lower()
+        print(f)
+        img = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2RGB)
+        ife = ImageFeatureExtractor()
+        result[name], _ = ife.getKAZE(img, 32)
+    with open(pickled_db_path, 'wb') as fp:  # save feature vectors in pickle
+        pickle.dump(result, fp)
