@@ -16,7 +16,7 @@ def show_images(img_paths):
 images_path = "../data/keys"
 files = [os.path.join(images_path, p) for p in sorted(os.listdir(images_path))]
 sample = random.sample(files, 15)  # get 3 random images
-vf.batch_extractor(images_path, pickled_db_path="features.pck")
+vf.batch_extractor_match(images_path, pickled_db_path="features.pck")
 ma = ImageMatch('features.pck')
 for s in sample:
     img_paths = [s]

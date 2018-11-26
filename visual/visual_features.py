@@ -191,16 +191,13 @@ class ImageMatch(object):
         nearest_paths = self.names[nearest_i].tolist()
         return nearest_paths, im_dist[nearest_i].tolist()
 
-
-def batch_extractor(images_path, pickled_db_path="features.pck"):
+def batch_extractor_match(images_path, pickled_db_path="features.pck"):
     files = [os.path.join(images_path, p) for p in
              sorted(os.listdir(images_path))]
     result = {}
     for f in files:
-        name = f.split('/')[-1].lower()
-        print(f)
         img = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2RGB)
         ife = ImageFeatureExtractor()
-        result[name], _ = ife.getKAZE(img, 32)
+        result[f.split('/')[-1].lower()], _ = ife.getKAZE(img, 32)
     with open(pickled_db_path, 'wb') as fp:  # save feature vectors in pickle
         pickle.dump(result, fp)
