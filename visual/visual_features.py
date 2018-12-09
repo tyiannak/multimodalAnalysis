@@ -18,24 +18,11 @@ class ImageFeatureExtractor():
     """@brief  Image Feature Extractor Class
     @param list_of_features (\a list) list of features to extract. One or
     more from []
-    @param resize_width (\a int) width of resized image to be used before
-    feature extraction (-1 for not resize)
     """
-    def __init__(self, list_of_features=["lbps", "hogs", "colors"],
-                 resize_width=-1):
+    def __init__(self, list_of_features=["lbps", "hogs", "colors"]):
         # get all annotations using multiple annotator flag:
         self.list_of_features = list_of_features
-        self.resize_width = resize_width
 
-    def resize_image(img, target_width):
-        (width, height) = img.shape[1], img.shape[0]
-        if target_width != -1:  # Use target_width = -1 for NO frame resizing
-            ratio = float(width) / target_width
-            new_h = int(round(float(height) / ratio))
-            img_new = cv2.resize(img, (target_width, new_h))
-        else:
-            img_new = img
-        return img_new
 
     def getRGBS(self, image):
         n_bins_per_hist = 16
