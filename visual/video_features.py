@@ -115,15 +115,11 @@ class VideoFeatureExtractor():
         capture = cv2.VideoCapture(file_path)
         n_frames = capture.get(cv2.CAP_PROP_FRAME_COUNT)
         fps = capture.get(cv2.CAP_PROP_FPS)
-        duration = n_frames / fps
-        next_timestamp_proc = 0.0
-        count = 0
+        duration, next_timestamp_proc = n_frames / fps, 0.0
         vs = visual_features.ImageFeatureExtractor()
         frames_to_process = int(duration/self.step)
         pbar = tqdm.tqdm(total=frames_to_process)
-        features_all = []
-        timestamps = []
-
+        features_all, timestamps, count = [], [], 0
         while 1:
             ret, frame = capture.read()
             timestamp = float(count) / fps
@@ -137,11 +133,9 @@ class VideoFeatureExtractor():
                     pbar.update(1)
                     frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     frame3 = self.resize_image(frame2, self.resize_width)
-                    features = []
-                    feature_names = []
+                    features, feature_names = [], []
                     cv2.imshow('Color', cv2.cvtColor(frame3, cv2.COLOR_RGB2BGR))
                     cv2.waitKey(5) & 0xFF
-
                     if "colors" in self.list_of_features:
                         f, fn = vs.getRGBS(frame3)
                         features.append(f)
@@ -164,19 +158,13 @@ class VideoFeatureExtractor():
                                          criteria=(
                                          cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT,
                                          10, 0.03))
-
-                        feature_params = dict(maxCorners=500,
-                                              qualityLevel=0.3,
-                                              minDistance=3,
-                                              blockSize=5)
-
-
+                        feature_params = dict(maxCorners=500, qualityLevel=0.3,
+                                              minDistance=3, blockSize=5)
                         frame3_g = cv2.cvtColor(frame3, cv2.COLOR_RGB2GRAY)
-                        if count==1:
+                        if count == 1:
                             frame3_g_prev = frame3_g
                         p0 = cv2.goodFeaturesToTrack(frame3_g, mask=None,
                                                      **feature_params)
-
                         angles, mags, MEANANGLE, STD, good_new, good_old, dxS, dyS, TitlPanConfidence = \
                             self.computeFlowFeatures(frame3_g, frame3_g_prev, p0, lk_params)
                         f = [MEANANGLE, STD]
@@ -190,4 +178,3 @@ class VideoFeatureExtractor():
             else:
                 break
         return np.array(features_all), np.array(timestamps), feature_names
-
