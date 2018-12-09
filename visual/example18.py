@@ -1,5 +1,5 @@
 """!
-@brief Example 15
+@brief Example 18
 @details: Video feature extraction example
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
