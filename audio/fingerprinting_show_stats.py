@@ -20,4 +20,3 @@ if __name__ == '__main__':
     print "NUMBER OF FINGERPRINTS IN DATABASE: {}".format(n_fings)
     print "NUMBER OF FINGERPRINTS PER SONG: {0:.1f}".format(n_figs_per_songs)
     print " - - - - - - - - - - - - - - - -"
-    
