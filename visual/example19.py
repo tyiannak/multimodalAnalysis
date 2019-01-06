@@ -1,3 +1,8 @@
+"""!
+@brief Example 19
+@details: Keras simple CNN example
+@author Theodoros Giannakopoulos {tyiannak@gmail.com}
+"""
 import numpy as np
 np.random.seed(1)
 from keras.models import Sequential
@@ -13,14 +18,13 @@ X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
 X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
 X_train = X_train.astype('float32'); X_test = X_test.astype('float32')
 X_train /= 255; X_test /= 255
-# Preprocess class labels
 Y_train = np_utils.to_categorical(y_train, 10)
 Y_test = np_utils.to_categorical(y_test, 10)
 # CNN model architecture
 model = Sequential()
-model.add(Convolution2D(64, (3, 3), activation='relu', input_shape=(1,28,28),
+model.add(Convolution2D(64, (3, 3), activation='relu', input_shape=(1, 28, 28),
                         data_format='channels_first'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
