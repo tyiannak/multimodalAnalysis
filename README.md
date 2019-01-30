@@ -21,6 +21,8 @@ Dependencies can be installed using pip and the requirements.txt files in each f
 | <a href="https://drive.google.com/open?id=1h9WBQZnLHikqIAqgmR_uCJUEH0Pfvqs6-D5JouAaLkw" target="_blank">Course 6</a> | Image Feature Extraction - 2 |
 | <a href="https://drive.google.com/open?id=1k3qJzSh-ytyZktvTJ7cVZpH0jFBWD6aZhu33u_4-hOM" target="_blank">Course 7</a> | Video Feature Extraction - 1 |
 | <a href="https://drive.google.com/open?id=1qNEdx25RdtzfPY8jWB5FzWbFWoZfnUhvtrfi3xi4nMw" target="_blank">Course 8</a> | Audio Fingerprinting |
+| <a href="https://drive.google.com/open?id=1ojM7AtQVdwOYXMkyrjpswhAyd4PnpDKh5kzWsSxwWSQ" target="_blank">Course 9</a> | DL 1 |
+| <a href="https://drive.google.com/open?id=1d_qBD7ootzFPWdI3qJ_RhUAopDRhDGssFg6NCkiVwq0" target="_blank">Course 10</a> | DL 2 |
 
 ## Author
 <img src="https://tyiannak.github.io/files/3.JPG" align="left" height="100"/>
