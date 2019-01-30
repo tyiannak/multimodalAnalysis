@@ -12,7 +12,7 @@ from pyAudioAnalysis import audioBasicIO as aIO
 
 if __name__ == '__main__':
     # read machine sound
-    fs, s = aIO.readAudioFile("../data/general/objects/1-46744-A.ogg.wav")
+    fs, s = aIO.readAudioFile("../data/activity_sounds/1-46744-A.ogg.wav")
     duration = len(s) / float(fs)
     # extract short term features and plot ZCR and Energy
     [f, fn] = aF.stFeatureExtraction(s, fs, int(fs * 0.050), int(fs * 0.050))
