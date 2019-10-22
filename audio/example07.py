@@ -23,7 +23,7 @@ if __name__ == '__main__':
                     play_sound(f, 0.5, fs); time.sleep(0.5); play_sound(f+t, 0.5, fs)
                 else:
                     play_sound(f+t, 0.5, fs); time.sleep(0.5); play_sound(f, 0.5, fs)
-                ans = int(raw_input('Which was higher (1/2):'))
+                ans = int(input('Which was higher (1/2):'))
                 if ans == sequel: answers[i_f][-1] += 1
     print("Freq\t", end='')
     for t in thres: print("{0:.1f}\t".format(t), end='')
