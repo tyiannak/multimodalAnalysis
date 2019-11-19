@@ -16,7 +16,7 @@ def get_dir_features(dir_name):
     feats = []
     for f in glob.glob(os.path.join(dir_name, "*.wav")):
         [Fs, s] = wavfile.read(f)
-        tempo, _ = librosa.beat.beat_track(y=s, sr=Fs)
+        tempo, _ = librosa.beat.beat_track(y=s.astype('float'), sr=Fs)
         f, _, fn = mt(s, Fs, int(1.0*Fs), int(1.0*Fs), int(0.1*Fs), int(0.1*Fs))
         feats.append([tempo, np.mean(f[fn.index("spectral_centroid_mean")],
                                      axis=0)])

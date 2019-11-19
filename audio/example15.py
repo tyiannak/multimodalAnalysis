@@ -14,7 +14,7 @@ if __name__ == '__main__':
         sys.exit()
     # load file and extract tempo and beats:
     [Fs, s] = wavfile.read(sys.argv[1])
-    tempo, beats = librosa.beat.beat_track(y=s, sr=Fs, units="time")
+    tempo, beats = librosa.beat.beat_track(y=s.astype('float'), sr=Fs, units="time")
     beats -= 0.05
     # add small 220Hz sounds on the 2nd channel of the song on each beat
     s = s.reshape(-1, 1)

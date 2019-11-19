@@ -15,7 +15,7 @@ layout = go.Layout(title='Librosa pitch estimation',
                    yaxis=dict(title='freq (Hz)',))
 
 def get_librosa_pitch(signal, fs, window):
-    pitches, magnitudes = librosa.piptrack(y=signal, sr=fs, n_fft=int(window),
+    pitches, magnitudes = librosa.piptrack(y=signal.astype('float'), sr=fs, n_fft=int(window),
                                            hop_length=int(window/10))
     pitch_pos = np.argmax(magnitudes, axis=0)
     pitches_final = []
