@@ -6,16 +6,16 @@
 import numpy as np
 import plotly
 import plotly.graph_objs as go
-from pyAudioAnalysis import audioFeatureExtraction as aF
+from pyAudioAnalysis import ShortTermFeatures as aF
 from pyAudioAnalysis import audioBasicIO as aIO
 
 
 if __name__ == '__main__':
     # read machine sound
-    fs, s = aIO.readAudioFile("../data/activity_sounds/1-46744-A.ogg.wav")
+    fs, s = aIO.read_audio_file("../data/activity_sounds/1-46744-A.ogg.wav")
     duration = len(s) / float(fs)
     # extract short term features and plot ZCR and Energy
-    [f, fn] = aF.stFeatureExtraction(s, fs, int(fs * 0.050), int(fs * 0.050))
+    [f, fn] = aF.feature_extraction(s, fs, int(fs * 0.050), int(fs * 0.050))
     figs = plotly.tools.make_subplots(rows=3, cols=1,
                                       subplot_titles=["signal", fn[0], fn[1]])
     time = np.arange(0, duration - 0.050, 0.050)

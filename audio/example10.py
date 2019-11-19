@@ -6,7 +6,7 @@
 import numpy as np
 import plotly
 import plotly.graph_objs as go
-from pyAudioAnalysis import audioFeatureExtraction as aF
+from pyAudioAnalysis import ShortTermFeatures as aF
 from pyAudioAnalysis import audioBasicIO as aIO
 
 
@@ -15,12 +15,12 @@ if __name__ == '__main__':
     fp1 = "../data/general/speech/m1_neu-m1-l1.wav.wav" # male
     fp2 = "../data/general/speech/f1_neu-f1-l2.wav.wav" # female
     # read machine sound
-    fs1, s1 = aIO.readAudioFile(fp1)
-    fs2, s2 = aIO.readAudioFile(fp2)
+    fs1, s1 = aIO.read_audio_file(fp1)
+    fs2, s2 = aIO.read_audio_file(fp2)
     dur1, dur2 = len(s1) / float(fs1), len(s2) / float(fs2)
     # extract short term features
-    [f1, fn] = aF.stFeatureExtraction(s1, fs1, int(fs1 * win), int(fs1 * win))
-    [f2, fn] = aF.stFeatureExtraction(s2, fs2, int(fs2 * win), int(fs2 * win))
+    [f1, fn] = aF.feature_extraction(s1, fs1, int(fs1 * win), int(fs1 * win))
+    [f2, fn] = aF.feature_extraction(s2, fs2, int(fs2 * win), int(fs2 * win))
     figs = plotly.tools.make_subplots(rows=1, cols=2,
                                       subplot_titles=[fn[9], fn[10]])
     t1 = np.arange(0, dur1 - 0.050, 0.050)

@@ -5,7 +5,7 @@ and feature histogram representation (per feature and class).
 Binary classification task: male vs female speech segments
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
-from pyAudioAnalysis import audioFeatureExtraction as aF
+from pyAudioAnalysis import MidTermFeatures as aF
 import os.path
 import utilities as ut
 
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     features = []
     for d in dirs:
         # get feature matrix for each directory (class)
-        f, files, fn = aF.dirWavFeatureExtraction(d, m_win, m_step, s_win,
-                                                  s_step)
+        f, files, fn = aF.directory_feature_extraction(d, m_win, m_step, s_win,
+                                                       s_step)
         features.append(f)
     ut.plot_feature_histograms(features, fn, class_names)
