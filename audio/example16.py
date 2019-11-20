@@ -6,7 +6,7 @@ songs from different musical genres
 """
 import scipy.io.wavfile as wavfile, utilities as ut
 import glob, os, librosa, plotly, numpy as np, plotly.graph_objs as go
-from pyAudioAnalysis.audioFeatureExtraction import mtFeatureExtraction as mt
+from pyAudioAnalysis.MidTermFeatures import mid_feature_extraction as mt
 
 layout = go.Layout(title='Beat and spectral centroid distributions',
                    xaxis=dict(title='Tempo (bpms)',),

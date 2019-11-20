@@ -8,13 +8,13 @@ import numpy as np
 import scipy.io.wavfile as wavfile
 import plotly
 import plotly.graph_objs as go
-from pyAudioAnalysis import audioFeatureExtraction as aF
+from pyAudioAnalysis import ShortTermFeatures as aF
 
 # read fil and extract features using pyAudioAnalysis
 [Fs, s] = wavfile.read("../data/100_bpm.wav")
 dur = s.shape[0] / Fs
 win = 0.020
-f, fn = aF.stFeatureExtraction(s, Fs, win * Fs, win * Fs)
+f, fn = aF.feature_extraction(s, Fs, win * Fs, win * Fs)
 # keep energy and construct time arrays (for signal and feature seqs):
 energy = f[fn.index("energy"), :]
 t = np.arange(0, dur, 1.0 / Fs)
