@@ -75,6 +75,11 @@ def compute_class_rec_pre_f1(c_mat):
         f1.append(2 * rec[-1] * pre[-1] / (rec[-1] + pre[-1]))
     return rec,  pre, f1
 
+def find_nearest(x,A):
+    '''
+    returns the closest element in an array
+    '''
+    return A[(np.abs(A-x)).argmin()]
 
 def svm_train_evaluate(X, y, k_folds, C=1, use_regressor=False):
     '''
@@ -85,6 +90,8 @@ def svm_train_evaluate(X, y, k_folds, C=1, use_regressor=False):
     :param use_regressor: use svm regression for training (not nominal classes)
     :return: confusion matrix, average f1 measure and overall accuracy
     '''
+    #classes 
+    Y_classes=list(set(y))
     # normalize
     mean, std = X.mean(axis=0), np.std(X, axis=0)
     X = (X - mean) / std
@@ -96,11 +103,12 @@ def svm_train_evaluate(X, y, k_folds, C=1, use_regressor=False):
         if not use_regressor:
             cl = SVC(kernel='rbf', C=C)
         else:
-            cl = SVR(kernel='rbf', C=C)
+            cl = SVR(kernel='linear', C=C)
         cl.fit(x_train, y_train)
         y_pred = cl.predict(x_test)
         if use_regressor:
-            y_pred = np.round(y_pred)
+            for i,_ in enumerate(y_pred):
+                y_pred[i]=find_nearest(y_pred[i],Y_classes)
         # update aggregated confusion matrix:
         if count_cm == 0:
             cm = confusion_matrix(y_pred=y_pred, y_true=y_test)
