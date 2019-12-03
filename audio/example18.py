@@ -4,7 +4,7 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import numpy as np, plotly, plotly.graph_objs as go
-from pyAudioAnalysis.audioFeatureExtraction import dirWavFeatureExtraction as dW
+from pyAudioAnalysis.MidTermFeatures import directory_feature_extraction as dW
 from sklearn.svm import SVC
 import utilities as ut
 name_1, name_2 = "mfcc_3_std", "energy_entropy_mean"
@@ -24,16 +24,20 @@ if __name__ == '__main__':
     mean, std = f.mean(axis=0), np.std(f, axis=0)
     f1 = (f1 - mean) / std; f2 = (f2 - mean) / std; f = (f - mean) / std
     # plot selected 2D features
-    plt1 = go.Scatter(x=f1[:, 0], y=f1[:, 1], mode='markers', name="speech")
-    plt2 = go.Scatter(x=f2[:, 0], y=f2[:, 1], mode='markers', name="music")
+    plt1 = go.Scatter(x=f1[:, 0], y=f1[:, 1], mode='markers', name="speech",
+                      marker=dict(size=10,color='rgba(255, 182, 193, .9)',))
+    plt2 = go.Scatter(x=f2[:, 0], y=f2[:, 1], mode='markers', name="music",
+                      marker=dict(size=10,color='rgba(100, 100, 220, .9)',))
     # get classification decisions for grid
     y = np.concatenate((np.zeros(f1.shape[0]), np.ones(f2.shape[0])))
-    cl = SVC(kernel='rbf', C=0.1)
+    cl = SVC(kernel='rbf', C=1)
     cl.fit(f, y)
     x_ = np.arange(f[:, 0].min(), f[:, 0].max(), 0.01)
     y_ = np.arange(f[:, 1].min(), f[:, 1].max(), 0.01)
     xx, yy = np.meshgrid(x_, y_)
     Z = cl.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
-    cs = go.Heatmap(x=x_, y=y_, z=Z, showscale=False)
+    cs = go.Heatmap(x=x_, y=y_, z=Z, showscale=False,
+                    colorscale= [[0, 'rgba(255, 182, 193, .3)'],
+                                 [1, 'rgba(100, 100, 220, .3)']])
     plotly.offline.plot(go.Figure(data=[plt1, plt2, cs], layout=layout),
                         filename="temp2.html", auto_open=True)

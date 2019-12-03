@@ -5,7 +5,7 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import numpy as np, plotly, plotly.graph_objs as go
-from pyAudioAnalysis.audioFeatureExtraction import dirWavFeatureExtraction as dW
+from pyAudioAnalysis.MidTermFeatures import directory_feature_extraction as dW
 from sklearn.svm import SVC
 import utilities as ut
 name_1, name_2 = "spectral_spread_std", "mfcc_5_mean"

@@ -5,8 +5,7 @@
 """
 import numpy as np
 import utilities as ut
-from pyAudioAnalysis.audioFeatureExtraction import dirWavFeatureExtraction as dW
-
+from pyAudioAnalysis.MidTermFeatures import directory_feature_extraction as dW
 
 if __name__ == '__main__':
     # extract features, concatenate feature matrices and normalize:

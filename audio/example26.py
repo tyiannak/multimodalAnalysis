@@ -4,7 +4,7 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import numpy as np, csv, os, plotly, plotly.graph_objs as go
-from pyAudioAnalysis.audioFeatureExtraction import dirWavFeatureExtraction as dW
+from pyAudioAnalysis.MidTermFeatures import directory_feature_extraction as dW
 import utilities as ut
 from sklearn.externals import joblib
 import argparse
