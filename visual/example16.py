@@ -8,8 +8,9 @@ import numpy as np
 import plotly
 import plotly.graph_objs as go
 
-v = vf.VideoFeatureExtractor(["colors", "lbps", "hog"], resize_width=300, step = 0.5)
-f, t, fn = v.extract_features("dictator.mp4")
+v = vf.VideoFeatureExtractor(["colors", "lbps", "hog"],
+                             resize_width=300, step=0.5)
+f, t, fn = v.extract_features("../data/dictator.mp4")
 
 # normalize
 m = f.mean(axis=0)
