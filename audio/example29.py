@@ -4,16 +4,16 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import os, readchar, sklearn.cluster
-from pyAudioAnalysis.audioFeatureExtraction import mtFeatureExtraction as mT
-from pyAudioAnalysis.audioBasicIO import readAudioFile, stereo2mono
+from pyAudioAnalysis.MidTermFeatures import mid_feature_extraction as mT
+from pyAudioAnalysis.audioBasicIO import read_audio_file, stereo_to_mono
 from pyAudioAnalysis.audioSegmentation import flags2segs
 from pyAudioAnalysis.audioTrainTest import normalizeFeatures
 
 if __name__ == '__main__':
     # read signal and get normalized segment features:
     input_file = "../data/song1.mp3"
-    fs, x = readAudioFile(input_file)
-    x = stereo2mono(x)
+    fs, x = read_audio_file(input_file)
+    x = stereo_to_mono(x)
     mt_size, mt_step, st_win = 5, 0.5, 0.05
     [mt_feats, st_feats, _] = mT(x, fs, mt_size * fs, mt_step * fs,
                                 round(fs * st_win), round(fs * st_win * 0.5))

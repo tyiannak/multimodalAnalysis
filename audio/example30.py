@@ -4,14 +4,14 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import os, readchar, matplotlib.pyplot as plt, matplotlib
-from pyAudioAnalysis.audioBasicIO import readAudioFile, stereo2mono
+from pyAudioAnalysis.audioBasicIO import read_audio_file, stereo_to_mono
 from pyAudioAnalysis.audioSegmentation import musicThumbnailing
 
 if __name__ == '__main__':
     # read signal and get normalized segment features:
     input_file = "../data/song2.mp3"
-    fs, x = readAudioFile(input_file)
-    x = stereo2mono(x)
+    fs, x = read_audio_file(input_file)
+    x = stereo_to_mono(x)
     win = 0.5
     [A1, A2, B1, B2, Smatrix] = musicThumbnailing(x, fs, win, win, 20)
     os.system("avconv -i {} -ss {} -t {} thumb1.wav "
