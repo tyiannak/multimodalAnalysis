@@ -20,7 +20,7 @@ config = {
 
 fs = 16000
 bufSize = int(fs * 0.1)
-dur = 10
+dur = 2
 
 if __name__ == '__main__':
     pa = pyaudio.PyAudio() # initialize recording
@@ -35,8 +35,9 @@ if __name__ == '__main__':
         aggregated_buf = np.concatenate((aggregated_buf, s))
         if aggregated_buf.shape[0] > fs * dur:
             aggregated_buf = (2**15) * aggregated_buf / aggregated_buf.max()
-            print aggregated_buf.max()
             wavfile.write("temp.wav", fs, np.int16(aggregated_buf))
             aggregated_buf = np.array([])
-            print djv.recognize(FileRecognizer, "temp.wav")
+            response = djv.recognize(FileRecognizer, "temp.wav")
+            if response["confidence"] > 7:
+                print(response["song_name"], response["confidence"])
             #        sys.exit()
