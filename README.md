@@ -1,9 +1,13 @@
 # multimodalAnalysis
 
 ## General
-This code contains sample code for the Course "Multimoda Information Processing and Analysis"
-of the MSc in Data Science, of the National Centre for Scientific Research "Demokritos".
- The course covers introductory issues with regards to audio segmentation and classification,
+This code contains sample code for the Courses 
+ - "Machine Learning for Multimodal Data"
+of the [MSc in Artificial Intelligence](http://msc-ai.iit.demokritos.gr), of the University of Pireaus and the National Centre for Scientific Research "Demokritos".
+ - "Multimodal Information Processing and Analysis"
+of the [MSc in Data Science](http://msc-data-science.iit.demokritos.gr), of the National Centre for Scientific Research "Demokritos" and the University of Pelloponese. .
+
+This material covers introductory issues with regards to audio segmentation and classification,
  image processing, image feature extraction, segmentation and classification, video analysis and multimodal fusion.
 
 ## Dependencies
