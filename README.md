@@ -11,7 +11,7 @@ This material covers introductory issues with regards to audio segmentation and 
  image processing, image feature extraction, segmentation and classification, video analysis and multimodal fusion.
 
 ## Dependencies
-All code has been tested in Python3, but in most of the cases it is also compatible in Python2.7.
+All code has been tested in Python3.
 Dependencies can be installed using pip and the requirements.txt files in each folder (e.g. audio/requirements.txt).
 
 ## Course Presentations
