@@ -15,7 +15,8 @@ layout = go.Layout(title='Spectrogram Extraction Example using pyAudioAnalysis',
 def normalize_signal(signal):
     signal = np.double(signal)
     signal = signal / (2.0 ** 15)
-    return (signal - signal.mean()) / ((np.abs(signal)).max() + 0.0000000001)
+    signal = (signal - signal.mean())
+    return  signal / ((np.abs(signal)).max() + 0.0000000001)
 
 if __name__ == '__main__':
     [Fs, s] = wavfile.read("../data/sample_music.wav")
