@@ -15,7 +15,7 @@ def demo(f1, f2, c):
                       marker=dict(size=10, color='rgba(0, 200, 100, .9)', ),
                       showlegend=False)
     y = np.concatenate((np.zeros(f1.shape[0]), np.ones(f2.shape[0])))
-    cl = SVC(kernel='rbf', C=c)
+    cl = SVC(kernel='rbf', C=c, gamma='auto')
     cl.fit(f, y)
     x_ = np.arange(f[:, 0].min()-0.01, f[:, 0].max()+0.01, 0.005)
     y_ = np.arange(f[:, 1].min()-0.01, f[:, 1].max()+0.01, 0.005)
@@ -69,7 +69,8 @@ if __name__ == '__main__':
         titles.append('dataset 1 , C = {}'.format(Cs[i]))
         titles.append('dataset 2 , C = {}'.format(Cs[i]))
 
-    figs = plotly.tools.make_subplots(rows=n_r, cols=n_c, subplot_titles=titles)
+    figs = plotly.subplots.make_subplots(rows=n_r, cols=n_c,
+                                         subplot_titles=titles)
     for ic, c in enumerate(Cs):
         p1, p2, cs = demo(f11, f21, c)
         figs.append_trace(p1, ic + 1, 1)
