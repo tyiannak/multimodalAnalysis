@@ -26,7 +26,7 @@ def plot_feature_histograms(list_of_feature_mtr, feature_names,
     n_features = len(feature_names)
     n_bins = 12
     n_rows = int(n_features / n_columns) + 1
-    figs = plotly.tools.make_subplots(rows=n_rows, cols=n_columns,
+    figs = plotly.subplots.make_subplots(rows=n_rows, cols=n_columns,
                                       subplot_titles=feature_names)
     figs['layout'].update(height=(n_rows * 250))
     clr = get_color_combinations(len(class_names))
@@ -94,16 +94,16 @@ def svm_train_evaluate(X, y, k_folds, C=1, use_regressor=False):
     Y_classes=list(set(y))
     # normalize
     mean, std = X.mean(axis=0), np.std(X, axis=0)
-    X = (X - mean) / std
+    X = (X - mean) / (std + 0.0000001)
     # k-fold evaluation:
     kf = KFold(n_splits=k_folds, shuffle=True)
     f1s, accs, count_cm = [], [], 0
     for train, test in kf.split(X):
         x_train, x_test, y_train, y_test = X[train], X[test], y[train], y[test]
         if not use_regressor:
-            cl = SVC(kernel='rbf', C=C)
+            cl = SVC(kernel='rbf', C=C, gamma="auto")
         else:
-            cl = SVR(kernel='linear', C=C)
+            cl = SVR(kernel='linear', C=C, gamma="auto")
         cl.fit(x_train, y_train)
         y_pred = cl.predict(x_test)
         if use_regressor:
@@ -137,7 +137,7 @@ def plotly_classification_results(cm, class_names):
     b1 = go.Bar(x=class_names,  y=rec, name="rec", marker=mark_prop1)
     b2 = go.Bar(x=class_names,  y=pre, name="pre", marker=mark_prop2)
     b3 = go.Bar(x=class_names,  y=f1, name="f1", marker=mark_prop3)
-    figs = plotly.tools.make_subplots(rows=1, cols=2,
+    figs = plotly.subplots.make_subplots(rows=1, cols=2,
                                       subplot_titles=["Confusion matrix",
                                                       "Performance measures"])
     figs.append_trace(heatmap, 1, 1); figs.append_trace(b1, 1, 2)
