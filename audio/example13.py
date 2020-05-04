@@ -10,9 +10,9 @@ import os.path
 import utilities as ut
 
 if __name__ == '__main__':
-    dirs = ["../data/general/animals",
-            "../data/general/speech",
-            "../data/general/music"]
+    dirs = ["../data/general/train/animals",
+            "../data/general/train/speech",
+            "../data/general/train/music"]
     class_names = [os.path.basename(d) for d in dirs]
     m_win, m_step, s_win, s_step = 1, 1, 0.1, 0.05
     features = []
