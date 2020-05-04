@@ -19,6 +19,6 @@ if __name__ == '__main__':
     for d in dirs:
         # get feature matrix for each directory (class)
         f, files, fn = aF.directory_feature_extraction(d, m_win, m_step, s_win,
-                                                  s_step)
+                                                       s_step)
         features.append(f)
     ut.plot_feature_histograms(features, fn, class_names)
