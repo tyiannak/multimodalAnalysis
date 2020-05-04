@@ -94,7 +94,7 @@ def svm_train_evaluate(X, y, k_folds, C=1, use_regressor=False):
     Y_classes=list(set(y))
     # normalize
     mean, std = X.mean(axis=0), np.std(X, axis=0)
-    X = (X - mean) / (std + 0.0000001)
+    X = (X - mean) / (std)
     # k-fold evaluation:
     kf = KFold(n_splits=k_folds, shuffle=True)
     f1s, accs, count_cm = [], [], 0
