@@ -4,7 +4,7 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import os, readchar
-from pyAudioAnalysis.audioSegmentation import silenceRemoval as sR
+from pyAudioAnalysis.audioSegmentation import silence_removal as sR
 from pyAudioAnalysis.audioBasicIO import read_audio_file
 
 if __name__ == '__main__':
