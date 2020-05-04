@@ -56,5 +56,6 @@ if __name__ == '__main__':
                                  [0.33, 'rgba(0, 180, 0, .3)'],
                                  [0.66, 'rgba(0, 0, 180, .3)'],
                                  [1, 'rgba(150, 150, 0, .3)']])
-    plotly.offline.plot(go.Figure(data=[plt1, plt2, plt3, plt4, cs], layout=layout),
+    plotly.offline.plot(go.Figure(data=[plt1, plt2, plt3, plt4, cs],
+                                  layout=layout),
                         filename="temp2.html", auto_open=True)
