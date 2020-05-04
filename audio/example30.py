@@ -5,7 +5,7 @@
 """
 import os, readchar, matplotlib.pyplot as plt, matplotlib
 from pyAudioAnalysis.audioBasicIO import read_audio_file, stereo_to_mono
-from pyAudioAnalysis.audioSegmentation import musicThumbnailing
+from pyAudioAnalysis.audioSegmentation import music_thumbnailing
 
 if __name__ == '__main__':
     # read signal and get normalized segment features:
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     fs, x = read_audio_file(input_file)
     x = stereo_to_mono(x)
     win = 0.5
-    [A1, A2, B1, B2, Smatrix] = musicThumbnailing(x, fs, win, win, 20)
+    [A1, A2, B1, B2, Smatrix] = music_thumbnailing(x, fs, win, win, 20)
     os.system("avconv -i {} -ss {} -t {} thumb1.wav "
               "-loglevel panic -y".format(input_file, A1, A2 - A1))
     os.system("avconv -i {} -ss {} -t {} thumb2.wav "
