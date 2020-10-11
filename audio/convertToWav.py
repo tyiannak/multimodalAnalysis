@@ -18,7 +18,7 @@ def main(argv):
 		channels = int(argv[3])
 	
 		for f in files:
-			ffmpegString = 'avconv -i ' + '\"' + f + '\"' + ' -ar ' + str(samplingRate) + ' -ac ' + str(channels) + ' ' + '\"' + os.path.splitext(f)[0] + '\"' + '.wav' 
+			ffmpegString = 'ffmpeg -i ' + '\"' + f + '\"' + ' -ar ' + str(samplingRate) + ' -ac ' + str(channels) + ' ' + '\"' + os.path.splitext(f)[0] + '\"' + '.wav' 
 			os.system(ffmpegString)
 
 if __name__ == '__main__':
