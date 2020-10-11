@@ -7,7 +7,8 @@
 import sys
 sys.path.append('../')
 import dejavu
-from dejavu.recognize import FileRecognizer
+#from dejavu.recognize import FileRecognizer
+from dejavu.logic.recognizer.file_recognizer import FileRecognizer
 
 config = {
     "database": {
@@ -20,4 +21,4 @@ config = {
 
 if __name__ == '__main__':
     djv = dejavu.Dejavu(config)
-    print djv.recognize(FileRecognizer, "query.wav")
+    print(djv.recognize(FileRecognizer, "query.wav"))
