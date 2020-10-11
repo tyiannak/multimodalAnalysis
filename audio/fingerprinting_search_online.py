@@ -8,7 +8,8 @@ import scipy.io.wavfile as wavfile
 import pyaudio, struct, sys
 sys.path.append('../')
 import dejavu
-from dejavu.recognize import FileRecognizer
+from dejavu.logic.recognizer.file_recognizer import FileRecognizer
+
 config = {
     "database": {
         "host": "127.0.0.1",
@@ -18,7 +19,7 @@ config = {
     }
 }
 
-fs = 16000
+fs = 8000
 bufSize = int(fs * 0.1)
 dur = 2
 
@@ -38,6 +39,10 @@ if __name__ == '__main__':
             wavfile.write("temp.wav", fs, np.int16(aggregated_buf))
             aggregated_buf = np.array([])
             response = djv.recognize(FileRecognizer, "temp.wav")
-            if response["confidence"] > 7:
-                print(response["song_name"], response["confidence"])
-            #        sys.exit()
+
+            if len(response["results"]) > 0:
+                if response["results"][0]["fingerprinted_confidence"] > 0.5:
+                    print(response["results"][0]["song_name"],
+                          response["results"][0]["fingerprinted_confidence"])
+                else:
+                    print(response["results"][0])
