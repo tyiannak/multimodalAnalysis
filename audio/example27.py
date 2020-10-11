@@ -18,7 +18,7 @@ if __name__ == '__main__':
         print("Playing segment {0:d} of {1:d} "
               "({2:.2f} - {3:.2f} secs)".format(i_s, len(seg_lims), s[0], s[1]))
         # save the current segment to temp.wav
-        os.system("avconv -i {} -ss {} -t {} temp.wav "
+        os.system("ffmpeg -i {} -ss {} -t {} temp.wav "
                   "-loglevel panic -y".format(input_file, s[0], s[1]-s[0]))
         # play segment and wait for input
         os.system("play temp.wav")

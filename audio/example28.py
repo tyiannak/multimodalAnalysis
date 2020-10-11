@@ -17,6 +17,7 @@ if __name__ == '__main__':
     mt_size, mt_step, st_win = 1, 0.1, 0.05
     [mt_feats, st_feats, _] = mT(x, fs, mt_size * fs, mt_step * fs,
                                  round(fs * st_win), round(fs * st_win * 0.5))
+    print(mt_feats.shape)
     (mt_feats_norm, MEAN, STD) = normalize_features([mt_feats.T])
     mt_feats_norm = mt_feats_norm[0].T
     # perform clustering (k = 4)
@@ -24,6 +25,7 @@ if __name__ == '__main__':
     k_means = sklearn.cluster.KMeans(n_clusters=n_clusters)
     k_means.fit(mt_feats_norm.T)
     cls = k_means.labels_
+    print(cls.shape)
     segs, c = labels_to_segments(cls, mt_step) # convert flags to segment limits
     for sp in range(n_clusters):            # play each cluster's segment
         for i in range(len(c)):
