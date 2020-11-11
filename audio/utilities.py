@@ -4,6 +4,7 @@
 @author Theodoros Giannakopoulos {tyiannak@gmail.com}
 """
 import plotly
+import plotly.subplots
 import plotly.graph_objs as go
 import numpy as np
 import matplotlib.pyplot as plt
@@ -27,7 +28,7 @@ def plot_feature_histograms(list_of_feature_mtr, feature_names,
     n_bins = 12
     n_rows = int(n_features / n_columns) + 1
     figs = plotly.subplots.make_subplots(rows=n_rows, cols=n_columns,
-                                      subplot_titles=feature_names)
+                                         subplot_titles=feature_names)
     figs['layout'].update(height=(n_rows * 250))
     clr = get_color_combinations(len(class_names))
     for i in range(n_features):

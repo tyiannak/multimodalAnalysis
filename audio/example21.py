@@ -5,6 +5,7 @@
 """
 import numpy as np, plotly, plotly.graph_objs as go
 from sklearn.svm import SVC
+import plotly.subplots
 
 def demo(f1, f2, c):
     f = np.concatenate((f1, f2), axis = 0)
