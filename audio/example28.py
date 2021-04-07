@@ -32,7 +32,7 @@ if __name__ == '__main__':
             if c[i] == sp and segs[i, 1]-segs[i, 0] > 0.5:
                 # play long segments of current speaker
                 print(c[i], segs[i, 0], segs[i, 1])
-                cmd = "avconv -i {} -ss {} -t {} temp.wav " \
+                cmd = "ffmpeg -i {} -ss {} -t {} temp.wav " \
                           "-loglevel panic -y".format(input_file, segs[i, 0]+1,
                                                       segs[i, 1]-segs[i, 0]-1)
                 os.system(cmd)

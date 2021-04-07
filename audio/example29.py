@@ -38,7 +38,7 @@ if __name__ == '__main__':
                                                       segs[i, 1],
                                                       segs[i, 0] + d/2 - win_to_play/2,
                                                       segs[i, 0] + d/2 + win_to_play/2))
-                cmd = "avconv -i {} -ss {} -t {} temp.wav " \
+                cmd = "ffmpeg -i {} -ss {} -t {} temp.wav " \
                           "-loglevel panic -y".format(input_file,
                                                       segs[i, 0] + d/2 - win_to_play/2,
                                                       win_to_play)
