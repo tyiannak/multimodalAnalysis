@@ -22,8 +22,9 @@ def get_fft_spec(signal, fs, win):
         times.append(i_f * win)
         # append mag of fft
         X = np.abs(scp.fft(f)) ** 2
-        freqs = np.arange(0, 1, 1.0/len(X)) * (fs/2)
+        freqs = np.arange(0, 1, 1.0/len(X)) * fs
         spec.append(X[0:int(len(X)/2)] / X.max())
+        freqs = freqs[0:int(len(freqs)/2)]
     return np.array(spec).T, freqs, times
 
 if __name__ == '__main__':
