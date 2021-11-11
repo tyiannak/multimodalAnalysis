@@ -1,7 +1,7 @@
 # multimodalAnalysis
 
 ## Related News
-Special issue in [Pattern Recognition in Multimedia Signal Analysis](https://www.mdpi.com/journal/applsci/special_issues/Multimedia_Signal), Deadline 2020 30 November
+Special issue in [Pattern Recognition in Multimedia Signal Analysis](https://www.mdpi.com/journal/applsci/special_issues/Multimedia_Signal), Deadline 2021 28 February
 
 ## General
 This code contains sample code for the Courses 
