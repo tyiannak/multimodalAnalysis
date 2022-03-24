@@ -7,18 +7,21 @@ import os, readchar, sklearn.cluster
 from pyAudioAnalysis.MidTermFeatures import mid_feature_extraction as mT
 from pyAudioAnalysis.audioBasicIO import read_audio_file, stereo_to_mono
 from pyAudioAnalysis.audioSegmentation import labels_to_segments
-from pyAudioAnalysis.audioTrainTest import normalize_features
 
 if __name__ == '__main__':
     # read signal and get normalized segment features:
-    input_file = "../data/song1.mp3"
+    input_file = "../data/song1.wav"
     fs, x = read_audio_file(input_file)
     x = stereo_to_mono(x)
-    mt_size, mt_step, st_win = 5, 0.5, 0.05
+    print(x)
+    mt_size, mt_step, st_win = 5, 0.5, 0.1
     [mt_feats, st_feats, _] = mT(x, fs, mt_size * fs, mt_step * fs,
                                 round(fs * st_win), round(fs * st_win * 0.5))
-    (mt_feats_norm, MEAN, STD) = normalize_features([mt_feats.T])
-    mt_feats_norm = mt_feats_norm[0].T
+#    (mt_feats_norm, MEAN, STD) = normalize_features([mt_feats.T])
+#    mt_feats_norm = mt_feats_norm[0].T
+    from sklearn.preprocessing import StandardScaler
+    scaler = StandardScaler()
+    mt_feats_norm = scaler.fit_transform(mt_feats.T).T
     # perform clustering (k = 4)
     n_clusters = 4
     k_means = sklearn.cluster.KMeans(n_clusters=n_clusters)
