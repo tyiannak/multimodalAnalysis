@@ -1,7 +1,7 @@
 readchar==2.0.1
 scipy==0.19.1
 plotly==3.1.1
-numpy==1.14.3
+numpy==1.22.0
 PyAudio==0.2.11
 librosa==0.5.1
 matplotlib==2.0.2
