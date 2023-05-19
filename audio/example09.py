@@ -12,8 +12,8 @@ from pyAudioAnalysis import audioBasicIO as aIO
 
 if __name__ == '__main__':
     win = 0.05
-    fp1 = "../data/general/speech/m1_neu-m1-l1.wav.wav" # male
-    fp2 = "../data/general/speech/f1_neu-f1-l2.wav.wav" # female
+    fp1 = "../data/general/train/speech/m1_neu-m1-l2.wav.wav" # male
+    fp2 = "../data/general/train/speech/f1_neu-f1-d1.wav.wav" # female
     # read machine sound
     fs1, s1 = aIO.read_audio_file(fp1)
     fs2, s2 = aIO.read_audio_file(fp2)
